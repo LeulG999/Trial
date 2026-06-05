@@ -1,9 +1,5 @@
 package edu.miu;
 
-import edu.miu.dao.AccountDao;
-import edu.miu.dao.CustomerDao;
-import edu.miu.dao.impl.InMemoryAccountDao;
-import edu.miu.dao.impl.InMemoryCustomerDao;
 import edu.miu.service.AccountService;
 import edu.miu.service.CustomerService;
 
@@ -13,11 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class App {
-    private static final CustomerDao CUSTOMER_DAO = new InMemoryCustomerDao();
-    private static final AccountDao ACCOUNT_DAO = new InMemoryAccountDao();
-
-    private static final CustomerService CUSTOMER_SERVICE = new CustomerService(CUSTOMER_DAO);
-    private static final AccountService ACCOUNT_SERVICE = new AccountService(ACCOUNT_DAO, CUSTOMER_DAO);
+    private static final CustomerService CUSTOMER_SERVICE = new CustomerService();
+    private static final AccountService ACCOUNT_SERVICE = new AccountService(CUSTOMER_SERVICE);
 
     public static void main(String[] args) {
         loadSampleData();
@@ -26,7 +19,7 @@ public class App {
         System.out.println(CUSTOMER_SERVICE.findAllCustomersAsJson());
 
         System.out.println();
-        System.out.println("All accounts:");
+        System.out.println("All accounts sorted by balance with liquidity position:");
         System.out.println(ACCOUNT_SERVICE.findAllAccountsAsJson());
 
         System.out.println();
